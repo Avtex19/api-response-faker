@@ -41,7 +41,7 @@ export const RulesTable = () => {
         {rules.length === 0 && !loading && <div className={'text-center text-zinc-500'}>No rules present, try adding one</div>}
         {rules.length !== 0 && !loading &&
             <div className={'flex justify-center items-center w-full my-5'}>
-                <Paper sx={{height: "600px", width: '80%'}}>
+                <Paper sx={{height: "600px", width: '95%'}}>
                     <DataGrid
                         disableRowSelectionOnClick
                         rows={rules.map((rule, id) => {
@@ -67,7 +67,7 @@ export const RulesTable = () => {
 
                                 renderCell: (params: GridRenderCellParams) => {
                                     return <div><JsonEditor rootName={''} viewOnly={true}
-                                                            data={JSON.parse(params.value)}></JsonEditor></div>
+                                                            data={JSON.parse(params.value === "" ? "{}" : params.value)}></JsonEditor></div>
                                 }
                             },
 
@@ -79,7 +79,7 @@ export const RulesTable = () => {
 
                                 renderCell: (params: GridRenderCellParams) => {
                                     return <div><JsonEditor rootName={''} viewOnly={true}
-                                                            data={JSON.parse(params.value)}></JsonEditor></div>
+                                                            data={JSON.parse(params.value === "" ? "{}" : params.value)}></JsonEditor></div>
                                 }
                             }]}
                     />
