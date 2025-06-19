@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import {METHODS} from "../../common/methods.ts";
 import {PATHS} from "../../common/paths.ts";
 import {RESPONSE_CODES} from "../../common/responseCodes.ts";
+import {filterPathBasedOnMethod} from "../../common/filterPathBasedOnMethod.ts";
 
 
 export const RulesForm = () => {
@@ -45,7 +46,10 @@ export const RulesForm = () => {
         <div className={'flex justify-start items-center'}>
             <label className={'text-zinc-500'}>Choose Method:</label>
             <select className={'bg-gray-50 text-zinc-500  font-bold p-2 rounded-xl'}
-                    onChange={(e) => setFormData({...formData, method: e.target.value as Method})}
+                    onChange={(e) => setFormData({
+                        ...formData, method: e.target.value as Method,
+                        path: filterPathBasedOnMethod(e.target.value as Method, Object.values(PATHS))[0]
+                    })}
             >
                 {Object.values(METHODS).map(option => <option key={option}>{option}</option>)}
             </select>
@@ -56,11 +60,8 @@ export const RulesForm = () => {
                     onChange={(e) => setFormData({...formData, path: e.target.value as string})}
 
             >
-                {formData.method === 'DELETE' && Object.values(PATHS).filter(path => path.includes(':id')).map(option => <option key={option}>{option}</option>)}
-                {formData.method === 'GET' && Object.values(PATHS).map(option => <option key={option}>{option}</option>)}
-                {formData.method === 'PATCH' && Object.values(PATHS).filter(path => path.includes(':id')).map(option => <option key={option}>{option}</option>)}
-                {formData.method === 'PUT' && Object.values(PATHS).filter(path => path.includes(':id')).map(option => <option key={option}>{option}</option>)}
-                {formData.method === 'POST' && Object.values(PATHS).filter(path => !path.includes(':id')).map(option => <option key={option}>{option}</option>)}
+                {filterPathBasedOnMethod(formData.method, Object.values(PATHS)).map(option =>
+                    <option key={option}>{option}</option>)}
             </select>
         </div>
         {formData.path.includes(':id') && <div className={'flex items-center justify-start items-center gap-3'}>
