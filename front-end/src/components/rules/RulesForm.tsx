@@ -6,28 +6,9 @@ import type {Code, Method} from "./FakeRuleModel/rule.ts";
 import fakeAxios from "../../../axios.ts";
 import {ClipLoader} from "react-spinners";
 import {toast} from "react-toastify";
-
-const METHODS: Method[] = [
-    "GET",
-    "POST",
-    "PUT",
-    "DELETE",
-]
-
-
-const PATHS = {
-    USERS: "/users",
-    PRODUCTS: "/products",
-}
-
-const RESPONSE_CODES: Code[] = [
-    "200 OK",
-    "201 CREATED",
-    "404 NOT_FOUND",
-    "401 Unauthorized",
-    "403 Forbidden",
-    "500 Internal_Server_Error"
-]
+import {METHODS} from "../../common/methods.ts";
+import {PATHS} from "../../common/paths.ts";
+import {RESPONSE_CODES} from "../../common/responseCodes.ts";
 
 
 export const RulesForm = () => {
@@ -35,8 +16,13 @@ export const RulesForm = () => {
     const [formData, setFormData] = useState<IFakerRuleForm>({
         code: "200 OK",
         path: '/users',
-        method: 'GET',
-        response: {}
+        identifier: null,
+        method: 'POST',
+        response: {
+            statusText: "OK",
+            statusCode: 200
+        },
+        body: {}
     })
 
 
@@ -44,8 +30,10 @@ export const RulesForm = () => {
                  onSubmit={async (e) => {
                      e.preventDefault();
                      try {
+                         const {code, method, response, path, identifier, body} = formData
+                         const pathWithId = identifier ? path.replace(':id', identifier) : path
                          setLoading(true)
-                         await fakeAxios.post('/rules', formData)
+                         await fakeAxios.post('/rules', {code, method, response, pathWithId, body})
                          setLoading(false)
                          toast('rule added successfully')
                      } catch (err) {
@@ -73,21 +61,44 @@ export const RulesForm = () => {
                 {Object.values(PATHS).map(option => <option key={option}>{option}</option>)}
             </select>
         </div>
-
+        {formData.path.includes(':id') && <div className={'flex items-center justify-start items-center gap-3'}>
+            <label className={'text-zinc-500'}>Identifier: </label>
+            <input className={'text rounded border-2 border-zinc-500 text-zinc-500'}
+                   onChange={(e) => setFormData({...formData, identifier: e.target.value as string})}
+            ></input>
+        </div>}
         <div className={'flex items-center justify-start items-center'}>
-
 
             <label className={'text-zinc-500'}>Response Code: </label>
             <select className={'bg-gray-50 text-zinc-500  font-bold p-2 rounded-xl'}
-                    onChange={(e) => setFormData({...formData, code: e.target.value as Code})}
+                    onChange={(e) => setFormData({
+                        ...formData, response: {
+                            ...formData.response ?? {},
+                            statusCode: (e.target.value as Code).split(" ")[0],
+                            statusText: (e.target.value as Code).split(" ")[1]
+                        }, code: e.target.value as Code
+                    })}
             >
                 {Object.values(RESPONSE_CODES).map(option => <option key={option}>{option}</option>)}
             </select>
         </div>
 
-
-        <div className={'flex flex-col'}>
+        {(['POST', 'PUT', 'PATCH'].includes(formData.method)) && <div className={'flex flex-col'}>
+            <label className={'text-zinc-500'}>Body JSON</label>
+            <JsonEditor
+                rootName={''}
+                data={formData.body}
+                setData={(data: JsonData) => {
+                    setFormData({
+                        ...formData,
+                        body: data
+                    })
+                }}
+            />
+        </div>}
+        {<div className={'flex flex-col'}>
             <label className={'text-zinc-500'}>Response JSON</label>
+
             <JsonEditor
                 rootName={''}
                 data={formData.response}
@@ -98,7 +109,8 @@ export const RulesForm = () => {
                     })
                 }}
             />
-        </div>
+        </div>}
+
 
         <div className={'flex justify-center items-center bg-green-300 p-3 hover:brightness-90'}>{loading ? <ClipLoader
             color={'green'}
