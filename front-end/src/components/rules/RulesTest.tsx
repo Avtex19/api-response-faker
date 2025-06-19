@@ -36,11 +36,12 @@ export const RulesTest = () => {
                       const pathWithId = identifier ? path.replace(':id', identifier) : path
                       setLoading(true)
                       const data =  (await axiosSwitchRequest(method, pathWithId, body)).data as IFakerRuleForm[]
+                      toast('Response for this rule exist in the database!')
                       setDataToDisplay(data)
                       setLoading(false)
                   } catch (err: any) {
                       if (err.response.status === 404) {
-                          toast('Response for this rule doesnt exist in the database!')
+                          toast.error('Response for this rule doesnt exist in the database!')
                       }
                       setDataToDisplay([])
                       setLoading(false)
