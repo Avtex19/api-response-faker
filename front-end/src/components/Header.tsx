@@ -3,8 +3,8 @@ import classNames from "classnames";
 import type {Dispatch, SetStateAction} from "react";
 
 type HeaderProps = {
-    rulesView: "CREATE" | "PREVIEW",
-    setRulesView: Dispatch<SetStateAction<"CREATE" | "PREVIEW">>
+    rulesView: "CREATE" | "PREVIEW" | "TEST",
+    setRulesView: Dispatch<SetStateAction<"CREATE" | "PREVIEW" | "TEST">>
 }
 
 export const Header = ({rulesView, setRulesView}:HeaderProps) => {
@@ -28,6 +28,17 @@ export const Header = ({rulesView, setRulesView}:HeaderProps) => {
                     'bg-zinc-500': rulesView === 'PREVIEW',
                     'text-white': rulesView === 'PREVIEW',
                 })}>Show Existing Rules</Button>
+
+            <Button
+                onClick={() => {
+                    setRulesView('TEST')
+                }}
+
+                className={classNames({
+                    'bg-zinc-500': rulesView === 'TEST',
+                    'text-white': rulesView === 'TEST',
+                })}>Test Rule</Button>
+
         </div>
     </div>
 }
