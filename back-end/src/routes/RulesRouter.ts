@@ -17,12 +17,12 @@ rulesRouter.get('/', (req, res) => {
 rulesRouter.post('/', (req, res) => {
 
     try {
-        const {code, method, path, response} = req.body
-        const newApiRule = db.prepare('INSERT INTO api_rules (path, method, code, response) VALUES (?, ? ,?, ?)')
+        const {code, method, pathWithId, response, body} = req.body
+        const newApiRule = db.prepare('INSERT INTO api_rules (path, method, code, response, body) VALUES (?, ? ,?, ?, ?)')
         const parsedResponse = Object.keys(response).length === 0 ? null : JSON.stringify(response)
+        const parsedBody = Object.keys(body).length === 0 ? null : JSON.stringify(response)
 
-
-        const query = newApiRule.run(path, method, code, parsedResponse)
+        const query = newApiRule.run(pathWithId, method, code, parsedResponse, parsedBody)
         res.status(200).send(query.lastInsertRowid)
 
     } catch (err) {
