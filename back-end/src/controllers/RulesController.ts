@@ -14,7 +14,6 @@ export const getAllRules = (req, res) => {
 export const createRule = (req, res) => {
     try {
         const { code, method, pathWithId, response, body } = req.body;
-
         const parsedResponse =
             response && Object.keys(response).length > 0
                 ? JSON.stringify(response)

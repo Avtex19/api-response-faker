@@ -39,9 +39,7 @@ export const RulesForm = () => {
                          toast('Rule added successfully')
                      } catch (err: any) {
                          setLoading(false)
-                         if (err.response.status === 409) {
-                             toast.error(err.response.data.error)
-                         }
+                         toast.error("Rule already exists for the same method, path & at least one json definition")
                      }
                  }
                  }
