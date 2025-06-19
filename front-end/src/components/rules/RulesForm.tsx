@@ -37,11 +37,14 @@ export const RulesForm = () => {
                          await fakeAxios.post('/rules', {code, method, response, pathWithId, body})
                          setLoading(false)
                          toast('Rule added successfully')
-                     } catch (err) {
+                     } catch (err: any) {
                          setLoading(false)
-                         toast("Rule already exists!")
+                         if (err.response.status === 409) {
+                             toast.error(err.response.data.error)
+                         }
                      }
-                 }}
+                 }
+                 }
     >
         <div className={'flex justify-start items-center'}>
             <label className={'text-zinc-500'}>Choose Method:</label>
@@ -51,7 +54,8 @@ export const RulesForm = () => {
                         path: filterPathBasedOnMethod(e.target.value as Method, Object.values(PATHS))[0]
                     })}
             >
-                {Object.values(METHODS).map(option => <option key={option}>{option}</option>)}
+                {Object.values(METHODS).map(option => <option key={option}>{option}</option>
+                )}
             </select>
         </div>
         <div className={'flex items-center justify-start items-center'}>
@@ -64,12 +68,14 @@ export const RulesForm = () => {
                     <option key={option}>{option}</option>)}
             </select>
         </div>
-        {formData.path.includes(':id') && <div className={'flex items-center justify-start items-center gap-3'}>
-            <label className={'text-zinc-500'}>Identifier: </label>
-            <input className={'text rounded border-2 border-zinc-500 text-zinc-500'}
-                   onChange={(e) => setFormData({...formData, identifier: e.target.value as string})}
-            ></input>
-        </div>}
+        {
+            formData.path.includes(':id') && <div className={'flex items-center justify-start items-center gap-3'}>
+                <label className={'text-zinc-500'}>Identifier: </label>
+                <input className={'text rounded border-2 border-zinc-500 text-zinc-500'}
+                       onChange={(e) => setFormData({...formData, identifier: e.target.value as string})}
+                ></input>
+            </div>
+        }
         <div className={'flex items-center justify-start items-center'}>
 
             <label className={'text-zinc-500'}>Response Code: </label>
@@ -86,33 +92,37 @@ export const RulesForm = () => {
             </select>
         </div>
 
-        {(['POST', 'PUT', 'PATCH'].includes(formData.method)) && <div className={'flex flex-col'}>
-            <label className={'text-zinc-500'}>Body JSON</label>
-            <JsonEditor
-                rootName={''}
-                data={formData.body}
-                setData={(data: JsonData) => {
-                    setFormData({
-                        ...formData,
-                        body: data
-                    })
-                }}
-            />
-        </div>}
-        {<div className={'flex flex-col'}>
-            <label className={'text-zinc-500'}>Response JSON</label>
+        {
+            (['POST', 'PUT', 'PATCH'].includes(formData.method)) && <div className={'flex flex-col'}>
+                <label className={'text-zinc-500'}>Body JSON</label>
+                <JsonEditor
+                    rootName={''}
+                    data={formData.body}
+                    setData={(data: JsonData) => {
+                        setFormData({
+                            ...formData,
+                            body: data
+                        })
+                    }}
+                />
+            </div>
+        }
+        {
+            <div className={'flex flex-col'}>
+                <label className={'text-zinc-500'}>Response JSON</label>
 
-            <JsonEditor
-                rootName={''}
-                data={formData.response}
-                setData={(data: JsonData) => {
-                    setFormData({
-                        ...formData,
-                        response: data
-                    })
-                }}
-            />
-        </div>}
+                <JsonEditor
+                    rootName={''}
+                    data={formData.response}
+                    setData={(data: JsonData) => {
+                        setFormData({
+                            ...formData,
+                            response: data
+                        })
+                    }}
+                />
+            </div>
+        }
 
 
         <div className={'flex justify-center items-center bg-green-300 p-3 hover:brightness-90'}>{loading ? <ClipLoader
