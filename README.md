@@ -29,19 +29,30 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 - **Database**: SQLite (with better-sqlite3)
 
 ### System Architecture
+
 - **Component Hierarchy**:
   - `App.tsx`
-    - `RulesTable`
-    - `RuleForm`
+    - `RuleForm` (with JSON Editor for `response` and `body`)
+    - `RulesTable` (Material UI)
     - `ToastContainer`
-- **API Design**:
-  - `GET /rules`: Fetch all rules
-  - `POST /rules`: Add a new fake rule
-  - `ANY *`: Catch-all mock responder
-- **Database Schema**:
-  - `api_rules`: Stores `path`, `method`, `code`, `response`, `body`
-- **Authentication**: None required for this tool (trusted local/development use only)
 
+- **API Design**:
+  - `GET /rules` – Retrieve all rules
+  - `POST /rules` – Add a new rule
+  - `ALL *` – Simulate fake endpoints dynamically
+
+- **Database Schema**:
+  - `api_rules` table:
+    - `id`, `path`, `method`, `code`, `response`, `body`
+
+- **Authentication**: No authentication — dev tool intended for local/internal use
+
+### Key Design Decisions
+- Used `jsoneditor-react` to provide a structured, user-friendly JSON input experience
+- Used `better-sqlite3` for performant local data persistence
+- Enabled flexible request matching by using `method + path` combo and dynamic response formatting
+
+---
 ### Key Design Decisions
 - Used `better-sqlite3` for its simplicity and performance in small-scale mock DBs.
 - Built custom logic to match fake routes using HTTP method and path.
@@ -164,13 +175,28 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 
 ## 📝 How to Run Locally
 
-# Backend
-cd back-end
-npm install
-npm run dev
+## 🚀 Clone & Run Locally
 
-# Frontend
-cd front-end
-npm install
-npm run dev
 
+# 1. Clone the repository
+`git clone https://github.com/your-username/api-response-faker.git`
+
+# 2. Navigate to the backend folder and install dependencies
+- `cd api-response-faker/back-end`
+- `npm install`
+
+# 3. Start the backend server
+`npm run dev`
+
+# (Optional) If you need to initialize your own SQLite database, make sure db file exists in /back-end
+
+# 4. Open a new terminal and start the frontend
+- `cd ../front-end`
+- `npm install`
+- `npm run dev`
+
+# 5. Visit the frontend at:
+`http://localhost:5173`
+
+# Backend runs at:
+`http://localhost:3000`
