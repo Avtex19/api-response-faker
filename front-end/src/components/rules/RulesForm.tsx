@@ -31,13 +31,12 @@ const RESPONSE_CODES: Code[] = [
 
 
 export const RulesForm = () => {
-    const [responseJSON, setResponseJSON] = useState<JsonData>({})
     const [loading, setLoading] = useState<boolean>(false)
     const [formData, setFormData] = useState<IFakerRuleForm>({
         code: "200 OK",
         path: '/users',
         method: 'GET',
-        responseJson: {}
+        response: {}
     })
 
 
@@ -91,9 +90,12 @@ export const RulesForm = () => {
             <label className={'text-zinc-500'}>Response JSON</label>
             <JsonEditor
                 rootName={''}
-                data={responseJSON}
+                data={formData.response}
                 setData={(data: JsonData) => {
-                    setResponseJSON(data)
+                    setFormData({
+                        ...formData,
+                        response: data
+                    })
                 }}
             />
         </div>
