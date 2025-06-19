@@ -186,7 +186,6 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 3. Start the backend server
 `npm run dev`
 
-### (Optional) If you need to initialize your own SQLite database, make sure db file exists in /back-end
 
 4. Open a new terminal and start the frontend
 - `cd ../front-end`
@@ -198,3 +197,5 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 
 6. Backend runs at:
 `http://localhost:3000`
+
+(Optional) If you need to initialize your own SQLite database, make sure db file exists in /back-end
