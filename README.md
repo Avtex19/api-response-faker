@@ -87,15 +87,6 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 - [x] SQLite storage with fast lookup
 - [x] Toast notifications for user feedback
 
-### Enhanced Features (Nice-to-Have)
-- [ ] Dynamic route support (e.g. `/users/:id`)
-- [ ] Response delay simulation
-- [ ] Headers support
-- [ ] Import/export rule set
-- [ ] Auth-protected admin panel
-
----
-
 ## 📅 Development Plan
 
 ### 1: Planning & Setup
@@ -113,13 +104,11 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 - [x] Implement catch-all route (`app.all('*')`)
 - [x] Match requests with DB rules
 - [x] Parse and send JSON response
-- [ ] Add optional response headers/delay
 
 ### 4: UI Polish + Final Touches
 - [x] Add toasts and error feedback
 - [x] Screenshot documentation
 - [x] README and demo setup
-- [ ] (Optional) Unit testing
 
 ---
 
