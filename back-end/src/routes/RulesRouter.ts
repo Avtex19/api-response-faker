@@ -20,7 +20,7 @@ rulesRouter.post('/', (req, res) => {
         const {code, method, pathWithId, response, body} = req.body
         const newApiRule = db.prepare('INSERT INTO api_rules (path, method, code, response, body) VALUES (?, ? ,?, ?, ?)')
         const parsedResponse = Object.keys(response).length === 0 ? null : JSON.stringify(response)
-        const parsedBody = Object.keys(body).length === 0 ? null : JSON.stringify(response)
+        const parsedBody = Object.keys(body).length === 0 ? null : JSON.stringify(body)
 
         const query = newApiRule.run(pathWithId, method, code, parsedResponse, parsedBody)
         res.status(200).send(query.lastInsertRowid)
