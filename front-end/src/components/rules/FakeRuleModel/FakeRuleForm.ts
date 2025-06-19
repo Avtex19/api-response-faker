@@ -5,5 +5,5 @@ export interface IFakerRuleForm {
     method: Method,
     code: Code,
     path: string
-    responseJson: JsonData | null,
+    response: JsonData | null,
 }
