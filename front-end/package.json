@@ -10,12 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@json-editor/json-editor": "^2.15.2",
+    "@mui/material": "^7.1.1",
+    "@mui/x-data-grid": "^8.5.2",
     "@tailwindcss/vite": "^4.1.10",
+    "@types/axios": "^0.9.36",
+    "axios": "^1.10.0",
     "classnames": "^2.5.1",
+    "i": "^0.3.7",
     "json-edit-react": "^1.27.2",
+    "npm": "^11.4.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-spinners": "^0.17.0",
+    "react-toastify": "^11.0.5",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
