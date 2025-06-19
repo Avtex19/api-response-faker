@@ -173,7 +173,7 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 - `npm install`
 
 3. Start the backend server
-`npm run dev`
+`npm start`
 
 
 4. Open a new terminal and start the frontend
