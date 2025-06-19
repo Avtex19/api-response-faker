@@ -1,7 +1,6 @@
-import { Request, Response } from 'express';
 import db from '../db';
 
-export const getAllRules = (req: Request, res: Response) => {
+export const getAllRules = (req, res) => {
     try {
         const stmt = db.prepare('SELECT * FROM api_rules');
         const rules = stmt.all();
@@ -12,7 +11,7 @@ export const getAllRules = (req: Request, res: Response) => {
     }
 };
 
-export const createRule = (req: Request, res: Response) => {
+export const createRule = (req, res) => {
     try {
         const { code, method, pathWithId, response, body } = req.body;
 
