@@ -27,46 +27,64 @@ export const RulesTable = () => {
         getRules()
     }, []);
 
-    if (loading) {
-        return <div className={'flex justify-center items-center my-10 p-3'}><ClipLoader
-            color={'blue'}
-            size={30}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-        /></div>
-    }
 
-    return rules.length === 0 ? <div className={'text-center'}>There are no rules added, try adding one!</div> :
-        <div className={'flex justify-center items-center w-full my-5'}>
-            <Paper sx={{ height: "500px", width: '80%'}}>
-                <DataGrid
-                    disableRowSelectionOnClick
-                    rows={rules.map((rule, id) => {
-                        return {...rule, id}
-                    })}
-                    sx={{
-                        '& .MuiDataGrid-cell': {
-                            alignItems: 'start',
-                            whiteSpace: 'pre-wrap',
-                            paddingTop: '12px',
-                            paddingBottom: '12px',
-                        },
-                    }}
-                    getRowHeight={() => 'auto'}
-                    checkboxSelection={false}
-                    autoPageSize={true}
-                    columns={[{field: 'method',headerName: 'Method' }, {field: 'path', headerName: 'Path'}, {field: 'code', headerName:'Status Code',  width: 300}, {
-                        field: 'response',
-                        headerName: 'Response JSON',
-                        width: 200,
-                        flex: 1,
-
-                        renderCell: (params:GridRenderCellParams) => {
-                            return <div><JsonEditor rootName={''} viewOnly={true} data={JSON.parse(params.value)}></JsonEditor></div>
-                        }
-                    }]}
-                />
-            </Paper>
+    return <>
+        <div className={'flex justify-center items-center m-auto p-3'}>
+            <ClipLoader
+                color={'blue'}
+                size={30}
+                loading={loading}
+                aria-label="Loading Spinner"
+                data-testid="spinner"
+            />
         </div>
+        {rules.length === 0 && !loading && <div className={'text-center text-zinc-500'}>No rules present, try adding one</div>}
+        {rules.length !== 0 && !loading &&
+            <div className={'flex justify-center items-center w-full my-5'}>
+                <Paper sx={{height: "600px", width: '80%'}}>
+                    <DataGrid
+                        disableRowSelectionOnClick
+                        rows={rules.map((rule, id) => {
+                            return {...rule, id}
+                        })}
+                        sx={{
+                            '& .MuiDataGrid-cell': {
+                                alignItems: 'start',
+                                whiteSpace: 'pre-wrap',
+                                paddingTop: '12px',
+                                paddingBottom: '12px',
+                            },
+                        }}
+                        getRowHeight={() => 'auto'}
+                        checkboxSelection={false}
+                        autoPageSize={true}
+                        columns={[{field: 'method', headerName: 'Method'}, {
+                            field: 'path',
+                            headerName: 'Path'
+                        }, {field: 'code', headerName: 'Status Code', width: 300},
+                            {
+                                field: 'body', headerName: 'Body JSON', width: 300, flex: 1,
+
+                                renderCell: (params: GridRenderCellParams) => {
+                                    return <div><JsonEditor rootName={''} viewOnly={true}
+                                                            data={JSON.parse(params.value)}></JsonEditor></div>
+                                }
+                            },
+
+                            {
+                                field: 'response',
+                                headerName: 'Response JSON',
+                                width: 200,
+                                flex: 1,
+
+                                renderCell: (params: GridRenderCellParams) => {
+                                    return <div><JsonEditor rootName={''} viewOnly={true}
+                                                            data={JSON.parse(params.value)}></JsonEditor></div>
+                                }
+                            }]}
+                    />
+                </Paper>
+            </div>}
+    </>
 
 }
