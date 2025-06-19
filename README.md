@@ -161,3 +161,16 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 ![Rule Creation Form](./screenshots/form.png)
 ![Rules Table](./screenshots/table.png)
 ![Fake Response in Postman](./screenshots/fake-response-demo.png)
+
+## 📝 How to Run Locally
+
+# Backend
+cd back-end
+npm install
+npm run dev
+
+# Frontend
+cd front-end
+npm install
+npm run dev
+
