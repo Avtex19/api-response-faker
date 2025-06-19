@@ -10,7 +10,7 @@ type HeaderProps = {
 export const Header = ({rulesView, setRulesView}:HeaderProps) => {
 
     return <div className={'flex items-center justify-center gap-5 flex-col'}>
-        <h1 className={'text-center text-3xl font-medium p-3'}>API Response Faker</h1>
+        <h1 className={'text-center text-3xl font-medium p-3'}>API Rule Faker</h1>
 
         <div className={'flex gap-3 items-center'}>
             <Button
