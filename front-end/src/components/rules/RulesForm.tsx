@@ -3,6 +3,9 @@ import {useState} from "react";
 import {Button} from "../html/Button.tsx";
 import type {IFakerRuleForm} from "./FakeRuleModel/FakeRuleForm.ts";
 import type {Code, Method} from "./FakeRuleModel/rule.ts";
+import fakeAxios from "../../../axios.ts";
+import {ClipLoader} from "react-spinners";
+import {toast} from "react-toastify";
 
 const METHODS: Method[] = [
     "GET",
@@ -29,7 +32,7 @@ const RESPONSE_CODES: Code[] = [
 
 export const RulesForm = () => {
     const [responseJSON, setResponseJSON] = useState<JsonData>({})
-
+    const [loading, setLoading] = useState<boolean>(false)
     const [formData, setFormData] = useState<IFakerRuleForm>({
         code: "200 OK",
         path: '/users',
@@ -39,9 +42,17 @@ export const RulesForm = () => {
 
 
     return <form className={'w-fit my-5 m-auto flex flex-col gap-3 p-5 bg-neutral-50'}
-                 onSubmit={(e) => {
+                 onSubmit={async (e) => {
                      e.preventDefault();
-                     console.log(formData)
+                     try {
+                         setLoading(true)
+                         await fakeAxios.post('/rules', formData)
+                         setLoading(false)
+                         toast('rule added successfully')
+                     } catch (err) {
+                         setLoading(false)
+                         toast("Rule already exists!")
+                     }
                  }}
     >
         <div className={'flex justify-start items-center'}>
@@ -87,7 +98,13 @@ export const RulesForm = () => {
             />
         </div>
 
-        <Button
-            className={'bg-green-300 rounded p-3 cursor-pointer hover:brightness-90'}>Submit Rule</Button>
+        <div className={'flex justify-center items-center bg-green-300 p-3 hover:brightness-90'}>{loading ? <ClipLoader
+            color={'green'}
+            loading={loading}
+            size={30}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+        /> : <Button
+            className={'bg-inherit rounded-xl hover:cursor-pointer hover:brightness-100 '}>Submit Rule</Button>}</div>
     </form>
 }
