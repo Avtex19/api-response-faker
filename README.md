@@ -173,30 +173,28 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 ![Rules Table](./screenshots/table.png)
 ![Fake Response in Postman](./screenshots/fake-response-demo.png)
 
-## 📝 How to Run Locally
 
 ## 🚀 Clone & Run Locally
 
-
-# 1. Clone the repository
+1. Clone the repository
 `git clone https://github.com/your-username/api-response-faker.git`
 
-# 2. Navigate to the backend folder and install dependencies
+2. Navigate to the backend folder and install dependencies
 - `cd api-response-faker/back-end`
 - `npm install`
 
-# 3. Start the backend server
+3. Start the backend server
 `npm run dev`
 
-# (Optional) If you need to initialize your own SQLite database, make sure db file exists in /back-end
+### (Optional) If you need to initialize your own SQLite database, make sure db file exists in /back-end
 
-# 4. Open a new terminal and start the frontend
+4. Open a new terminal and start the frontend
 - `cd ../front-end`
 - `npm install`
 - `npm run dev`
 
-# 5. Visit the frontend at:
+5. Visit the frontend at:
 `http://localhost:5173`
 
-# Backend runs at:
+6. Backend runs at:
 `http://localhost:3000`
