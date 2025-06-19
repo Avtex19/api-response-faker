@@ -166,7 +166,7 @@ This tool allows users to set up fake API rules dynamically, simulating real res
 ## 🚀 Clone & Run Locally
 
 1. Clone the repository
-`git clone https://github.com/your-username/api-response-faker.git`
+`git clone https://github.com/Avtex19/api-response-faker.git`
 
 2. Navigate to the backend folder and install dependencies
 - `cd api-response-faker/back-end`
