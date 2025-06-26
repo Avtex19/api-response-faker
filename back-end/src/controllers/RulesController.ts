@@ -14,18 +14,20 @@ export const getAllRules = (req, res) => {
 export const createRule = (req, res) => {
     try {
         const { code, method, pathWithId, response, body } = req.body;
-        const parsedResponse =
-            response && Object.keys(response).length > 0
-                ? JSON.stringify(response)
-                : '';
-        const parsedBody =
-            body && Object.keys(body).length > 0
-                ? JSON.stringify(body)
-                : '';
 
-        const checkStmt = db.prepare(
-            "SELECT * FROM api_rules WHERE path = ? AND method = ? AND code = ? AND IFNULL(response, '') = ? AND IFNULL(body, '') = ?"
-        );
+        const parsedResponse = response && Object.keys(response).length > 0
+            ? JSON.stringify(response)
+            : '';
+
+        const parsedBody = body && Object.keys(body).length > 0
+            ? JSON.stringify(body)
+            : '';
+
+        const checkStmt = db.prepare(`
+            SELECT * FROM api_rules 
+            WHERE path = ? AND method = ? AND code = ? 
+            AND IFNULL(response, '') = ? AND IFNULL(body, '') = ?
+        `);
 
         const existing = checkStmt.get(pathWithId, method, code, parsedResponse, parsedBody);
 
@@ -33,9 +35,10 @@ export const createRule = (req, res) => {
             return res.status(409).json({ error: 'Rule already exists' });
         }
 
-        const insertStmt = db.prepare(
-            'INSERT INTO api_rules (path, method, code, response, body) VALUES (?, ?, ?, ?, ?)'
-        );
+        const insertStmt = db.prepare(`
+            INSERT INTO api_rules (path, method, code, response, body)
+            VALUES (?, ?, ?, ?, ?)
+        `);
 
         const result = insertStmt.run(pathWithId, method, code, parsedResponse, parsedBody);
 
